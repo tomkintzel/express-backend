@@ -1,13 +1,10 @@
 import express from "express";
 
-import { getServers, getServer } from '../controllers/serverController.js'
+import { getServers, getServerById } from '../controllers/serverController.js'
 
 export const serverRouter = express.Router()
 
-serverRouter.get('/', async (req, res) => {
-    const servers = await getServers();
-    res.status(200).send(servers)
-})
+serverRouter.get('/', getServers)
 
 serverRouter.post('/', async (req,res) => {
     const body = req.body
@@ -18,13 +15,6 @@ serverRouter.post('/', async (req,res) => {
     res.status(201).send('server wurde angelegt')
 })
 
-serverRouter.get('/:id', async (req, res) => {
-    const id = +req.params.id
-    const server = await getServer(id)
-    if(!server) {
-        res.status(404).send('not found')		
-    }
-    res.status(200).send(server)
-})
+serverRouter.get('/:id', getServerById)
 
 

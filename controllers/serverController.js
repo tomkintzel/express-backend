@@ -1,27 +1,13 @@
 import express from "express";
+import {getAllServers, getServer} from '../models/serverModel.js'
 
-import {pool} from '../config/database'
-
-const servers = [
-    {
-        "id": 1,
-        "name": "BSW Shop"
-    },
-    {
-        "id": 2,
-        "name": "BSW ERP"
-    },
-]
-
-export async function getServers() {
-    // const [rows] = await pool.query("SELECT * FROM servers")
-    // return rows
-    return servers;
+export const getServers = async(req,res) => {
+    const servers = await getAllServers()
+    res.status(200).json(servers)
 }
 
-
-export async function getServer(id) {
-    // const [rows] = await pool.query("SELECT * FROM servers WHERE id = ?", [id])
-    // return rows
-    return servers.find(server => server.id === id)
+export const getServerById = async(req,res) => {
+    const id = +req.params.id
+    const server = await getServer(id)
+    res.status(200).json(server)
 }
